@@ -62,12 +62,14 @@ int main(int args, char ** argv)
 	}
 	std::vector<string> names;
 	std::vector<double> distances;
+	std::vector<size_t> numNodes;
 	for (size_t j = 0;  j < leaves.size() ; ++j) {
 	  if (j != focalId) {
 	  //std::cout << focalSeq << " and " << leaves[j]->getName()<<std::endl;
 	    //  st << focalSeq << "\t" << leaves[j]->getName() << "\t" << TreeTemplateTools::getDistanceBetweenAnyTwoNodes ( *focalNode, *(leaves[j]) ) << std::endl;
 	    names.push_back(leaves[j]->getName());
 	    distances.push_back(TreeTemplateTools::getDistanceBetweenAnyTwoNodes ( *focalNode, *(leaves[j]) ));
+	    numNodes.push_back(TreeTemplateTools::getPathBetweenAnyTwoNodes ( *focalNode, *(leaves[j]) ).size());
 	  }
 	}
 
@@ -81,9 +83,9 @@ int main(int args, char ** argv)
 	
 	///	*outTxt_ << st.str() ;
 
-	*outTxt_ <<  "focalSequence" << "\t" << "otherSequence" <<"\n";
+	*outTxt_ <<  "focalSequence" << "\t" << "otherSequence" <<"\tdistance\tnumNodes\n";
 	for (size_t i = 0 ; i < names.size() ; ++i) {
-	  *outTxt_ << focalSeq << "\t" << names[newOrder[i]] << "\t" << distances[newOrder[i]] << std::endl;
+	  *outTxt_ << focalSeq << "\t" << names[newOrder[i]] << "\t" << distances[newOrder[i]] << "\t"<< numNodes[newOrder[i]]<<std::endl;
 	}
 
 	outTxt_->flush();
